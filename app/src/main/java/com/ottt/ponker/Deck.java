@@ -37,6 +37,7 @@ public class Deck {
     public void shuffle() {
         Collections.shuffle(cards);
     }
+
     public Card takeCard() {
         Card c = cards.get(rng.nextInt(cards.size()));
         cards.remove(c);
