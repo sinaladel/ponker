@@ -4,16 +4,8 @@ import java.util.ArrayList;
 
 public class Hand implements Comparable<Hand>{
     Player owner;
+    ArrayList<Card> cards;
 
-    public boolean isPair() {
-
-        boolean isPair;
-        return isPair;
-    }
-    public boolean threeOfKind() {
-        boolean threeKind;
-        return threeKind;
-    }
     //check for pair then then two pair, then if true pass both pair tier into three of a kind
     //If pair and three of a kind are true, full house is true
     //sort list, check for straight and flush.
@@ -40,12 +32,88 @@ public class Hand implements Comparable<Hand>{
         return Tier.INVALID;
     }
 
-    public boolean
-    @Override
-    public int compareTo(Hand o) {
+
+    public int compareTo(Hand that) {
+        HandValue this_hv = getHandValue(this);
+        HandValue that_hv = getHandValue(that);
+
+        this_hv.ordinal();
+
+        return 0;
+    }
+
+    HandValue getHandValue(Hand h) {
+        HandValue hv = HandValue.HIGH_CARD;
+        Tier pairTier = checkForPair(h.cards);
+        if (!pairTier.equals(Tier.INVALID)) { //has has at least one pair
+
+            Tier twoPairTier = checkForTwoPair(h, pairTier); //Check for two pair
+
+            Tier fourOfKindTier = checkForFourOfKind(pairTier, twoPairTier); //Check for four of kind
+
+            Tier threeOfKindTier = checkForThreeOfKind(h, pairTier);
+
+
+
+            if (fourOfKindTier.equals(Tier.INVALID) && !twoPairTier.equals(Tier.INVALID)) { //The pairs were not identical, but a pair was found
+                hv = HandValue.TWO_PAIR; //could have full house
+                Tier FullHouseTier = checkForFullHouse(pairTier, twoPairTier, h);
+            }
+
+            else {
+                for (Card c:pair_p) {
+                    if (c.getTier().equals(pairTier)) {
+                         hv = HandValue.THREE_OF_A_KIND; //can only have three of a kind
+                    }
+
+                }
+            }
+
+        }
+        else {
+            boolean hasFlush = checkForFlush();
+            boolean hasStraight = checkForStraight();
+            if ( hasFlush && hasStraight) { hv = HandValue.STRAIGHT_FLUSH; }
+            else if (hasFlush) { hv = HandValue.FLUSH;}
+            else if (hasStraight) {hv = HandValue.STRAIGHT;}
+
+        }
+        return HandValue.HIGH_CARD;
+    }
+
+    private Tier checkForThreeOfKind(Hand h, Tier pairTier) {
 
     }
 
+    private Tier checkForFullHouse(Tier pairTier, Tier twoPairTier, Hand h) {
+
+    }
+
+    private Tier checkForFourOfKind(Tier pairTier, Tier twoPairTier) {
+        if (pairTier.equals(twoPairTier)) {
+            return pairTier.ordinal() > twoPairTier.ordinal() ? pairTier : twoPairTier;
+        }
+        return Tier.INVALID;
+    }
+
+    private Tier checkForTwoPair(Hand h, Tier pairTier) {
+        ArrayList<Card> pair_p = h.cards; //This will be all of the hand, excluding your pair
+        int i = 0;
+        for (Card c:h.cards) { //Remove only two cards of the tier found to be a pair
+            if (c.getTier().equals(pairTier)) {
+                pair_p.remove(c);
+                i++;
+            }
+            if (i > 1) {break;}
+        }
+        return checkForPair(pair_p); //check for pair again
+    }
+
+    private boolean checkForStraight() {
+    }
+
+    private boolean checkForFlush() {
+    }
 
 
 }

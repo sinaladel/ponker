@@ -4,10 +4,10 @@ public enum HandValue {
     HIGH_CARD,
     PAIR,
     TWO_PAIR,
-    THREE_OF_A_KING,
+    THREE_OF_A_KIND,
     STRAIGHT,
     FLUSH,
     FULL_HOUSE,
     FOUR_OF_A_KIND,
-    STRAIGHT_FLUSH,
+    STRAIGHT_FLUSH
 }
