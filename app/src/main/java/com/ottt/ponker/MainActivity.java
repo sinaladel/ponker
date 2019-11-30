@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         h.getHandValue(h);
     }
 
+    //getActionBar.setTitle()
 
 
     public void initialiseGame(View v) {
