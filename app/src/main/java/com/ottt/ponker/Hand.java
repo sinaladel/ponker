@@ -6,6 +6,7 @@ import java.util.Collections;
 public class Hand implements Comparable<Hand>{
     Player owner = new Player("Player");
     ArrayList<Card> cards;
+    Tier highCard = Tier.INVALID;
 
     public Hand(Player owner) {
         this.owner = owner;
@@ -38,19 +39,15 @@ public class Hand implements Comparable<Hand>{
 
 
     Tier checkForPair(ArrayList<Card> cards) {
-        ArrayList<Card> CardsToCheck = new ArrayList<Card>();
-        CardsToCheck.addAll(cards);
+        ArrayList<Card> CardsToCheck = new ArrayList<Card>(cards);
         Collections.sort(CardsToCheck);
 
-        System.out.println(CardsToCheck);
         Tier previousTier = Tier.INVALID;
         for (Card c : CardsToCheck) {
             if (previousTier.equals(Tier.INVALID)) {
                 previousTier = c.getTier();
-                System.out.println("Set initial tier to " + previousTier);
                 continue;
             }
-            System.out.println("Comparing " + c.getTier() + " to " + previousTier);
             if (c.getTier().equals(previousTier)) {
 
                 return c.getTier();
@@ -62,98 +59,148 @@ public class Hand implements Comparable<Hand>{
 
 
     public int compareTo(Hand that) {
-        HandValue this_hv = getHandValue(this);
-        HandValue that_hv = getHandValue(that);
-
-        this_hv.ordinal();
-
-        return 0;
+        HandValue this_hv = this.getHandValue();
+        HandValue that_hv = that.getHandValue();
+        System.out.println("First hand: " + this_hv + " | Second Hand: " + that_hv);
+        if (this_hv.equals(that_hv)) {
+            return this.highCard.compareTo(that.highCard);
+        }
+        else return this_hv.compareTo(that_hv) * -1;
     }
 
-    HandValue getHandValue(Hand h) {
+    HandValue getHandValue() {
+        Collections.sort(cards);
+        System.out.println(cards);
         HandValue hv = HandValue.HIGH_CARD;
-        Tier pairTier = checkForPair(h.cards);
+        Tier pairTier = checkForPair(cards);
         System.out.println("Pair: " + pairTier);
         if (!pairTier.equals(Tier.INVALID)) { //has has at least one pair
 
-            ArrayList<Tier> twoPairTiers = checkForTwoPair(h, pairTier); //Check for two pair
+            ArrayList<Tier> twoPairTiers = checkForTwoPair(pairTier); //Check for two pair
             System.out.println("Two-pair: " + twoPairTiers);
 
             Tier fourOfKindTier = checkForFourOfKind(twoPairTiers); //Check for four of kind
+
             System.out.println("Four of a kind: " + fourOfKindTier);
 
-            Tier threeOfKindTier = checkForThreeOfKind(h, pairTier);
+            Tier threeOfKindTier = checkForThreeOfKind(twoPairTiers);
             System.out.println("Three of a kind: " + threeOfKindTier);
 
-            Tier fullHouseTier = checkForFullHouse(pairTier, threeOfKindTier, h);
+            Tier fullHouseTier = checkForFullHouse(twoPairTiers, threeOfKindTier);
             System.out.println("Full house: " + fullHouseTier);
-
+            if (!fourOfKindTier.equals(Tier.INVALID)) {hv = HandValue.FOUR_OF_A_KIND; highCard = fourOfKindTier;}
+            else if (!fullHouseTier.equals(Tier.INVALID)) {hv = HandValue.FULL_HOUSE; highCard = fullHouseTier;}
+            else if (!threeOfKindTier.equals(Tier.INVALID)) {hv = HandValue.THREE_OF_A_KIND; highCard = threeOfKindTier;}
+            else if (!twoPairTiers.equals(Tier.INVALID)) {hv = HandValue.TWO_PAIR; highCard = twoPairTiers.get(0);}
+            else {hv = HandValue.PAIR; highCard = pairTier;}
         }
         else {
-            boolean hasFlush = checkForFlush();
-            boolean hasStraight = checkForStraight();
-            if ( hasFlush && hasStraight) { hv = HandValue.STRAIGHT_FLUSH; }
-            else if (hasFlush) { hv = HandValue.FLUSH;}
-            else if (hasStraight) {hv = HandValue.STRAIGHT;}
+            Tier flushTier = checkForFlush();
+            System.out.println("Flush: " + flushTier);
+            Tier straightTier = checkForStraight();
+            System.out.println("Straight: " + straightTier);
+
+            if (!flushTier.equals(Tier.INVALID) && !straightTier.equals(Tier.INVALID)) {
+                hv = HandValue.STRAIGHT_FLUSH;
+                highCard = flushTier;
+            }
+            else if (!flushTier.equals(Tier.INVALID)) {
+                hv = HandValue.FLUSH;
+                highCard = flushTier;
+            }
+            else if (!straightTier.equals(Tier.INVALID)) {
+                hv = HandValue.STRAIGHT;
+                highCard = straightTier;
+            }
+
+            //if ( ) { hv = HandValue.STRAIGHT_FLUSH; }
+            //else if (hasFlush) { hv = HandValue.FLUSH;}
+            //else if (hasStraight) {hv = HandValue.STRAIGHT;}
 
         }
-        return HandValue.HIGH_CARD;
+        return hv;
     }
 
-    private Tier checkForThreeOfKind(Hand h, Tier pairTier) {
-        ArrayList<Card> pair_p = removePair(h, pairTier);
+    private Tier checkForThreeOfKind(ArrayList<Tier> twopairTiers) {
 
-        for (Card c:pair_p) {
-            if (c.getTier().equals(pairTier))
-                    return pairTier;
+        for (int i = 0; i < 2; i++) {
+            if (twopairTiers.get(i).equals(Tier.INVALID)) { continue; }
+            ArrayList<Card> pair_p = removePair(twopairTiers.get(i));
+            System.out.println(pair_p);
+            for (Card c : pair_p) {
+                if (c.getTier().equals(twopairTiers.get(i)))
+                    return twopairTiers.get(i);
+            }
         }
         return Tier.INVALID;
     }
 
-    private ArrayList<Card> removePair(Hand h, Tier pairTier) {
-        ArrayList<Card> pair_p = new ArrayList<Card>();
-        pair_p.addAll(h.cards);
+    private ArrayList<Card> removePair(Tier pairTier) {
+        ArrayList<Card> pair_p = new ArrayList<>(cards);
         Card emptyCard = new Card(Tier.INVALID, Suit.INVALID);
 
         int i = 0;
-        for (int j = 0; j < h.cards.size(); j++) {
+        for (int j = 0; j < cards.size(); j++) {
             if(pair_p.get(j).getTier().equals(pairTier)) { pair_p.set(j, emptyCard); i++; }
             if (i > 1) break;
         }
         pair_p.removeAll(Collections.singleton(emptyCard));
 
-        System.out.println("Hand: " + h.cards);
-        System.out.println("Hand - pair removed: " + pair_p);
-
         return pair_p;
     }
 
-    private Tier checkForFullHouse(Tier pairTier, Tier threeOfKindTier, Hand h) {
+    private Tier checkForFullHouse(ArrayList<Tier> twoPairTiers, Tier threeOfKindTier) {
+        for (int i = 0; i < 2; i++) {
+            if (twoPairTiers.get(i).equals(Tier.INVALID)) {break;}
+            if (twoPairTiers.get(i).equals(threeOfKindTier)) {continue;}
+            if (!twoPairTiers.get(i).equals(Tier.INVALID) && !threeOfKindTier.equals(Tier.INVALID)) {
+                return twoPairTiers.get(i).ordinal() < threeOfKindTier.ordinal() ? twoPairTiers.get(i) : threeOfKindTier;
+            }
+        }
         return Tier.INVALID;
     }
 
     private Tier checkForFourOfKind(ArrayList<Tier> twoPairTiers) {
         if (twoPairTiers.get(0).equals(twoPairTiers.get(1))) {
-            return twoPairTiers.get(0).ordinal() > twoPairTiers.get(1).ordinal() ? twoPairTiers.get(0) : twoPairTiers.get(1);
+            return twoPairTiers.get(0);
         }
         return Tier.INVALID;
     }
 
-    private ArrayList<Tier> checkForTwoPair(Hand h, Tier pairTier) {
-        ArrayList<Card> pair_p = removePair(h, pairTier); //This will be all of the hand, excluding your pair
+    private ArrayList<Tier> checkForTwoPair(Tier pairTier) {
+        ArrayList<Card> pair_p = removePair(pairTier); //This will be all of the hand, excluding your pair
         Tier pairTier2 = checkForPair(pair_p);  //check for pair again
         ArrayList<Tier> twoPairTiers = new ArrayList<Tier>();
-        twoPairTiers.add(pairTier);
-        twoPairTiers.add(pairTier2);
+        twoPairTiers.add(pairTier.ordinal() < pairTier2.ordinal() ? pairTier : pairTier2);
+        twoPairTiers.add(pairTier.ordinal() < pairTier2.ordinal() ? pairTier2 : pairTier);
         return twoPairTiers;
     }
 
-    private boolean checkForStraight() {
-        return false;
+    private Tier checkForStraight() {
+        Tier previousTier = Tier.INVALID;
+        for (Card c:cards) {
+            if (previousTier.equals(Tier.INVALID)) {
+                previousTier = c.getTier();
+                continue;
+            }
+            if (previousTier.ordinal() - c.getTier().ordinal() != 1) {
+                return Tier.INVALID;
+            }
+            previousTier = c.getTier();
+        }
+        return cards.get(0).getTier();
     }
 
-    private boolean checkForFlush() {
-        return false;
+    private Tier checkForFlush() {
+        Suit previousSuit = Suit.INVALID;
+        for (Card c: cards) {
+            if (previousSuit.equals(Suit.INVALID)) {
+                previousSuit = c.getSuit();
+                continue;
+            }
+            if (!c.getSuit().equals(previousSuit)) {return Tier.INVALID;}
+        }
+        return cards.get(0).getTier();
     }
 
 
