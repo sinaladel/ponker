@@ -20,5 +20,9 @@ public class Player {
         return null;
     }
 
+    public void dealMeIn() {
+
+    }
+
 
 }
