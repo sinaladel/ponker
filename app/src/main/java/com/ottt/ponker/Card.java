@@ -95,7 +95,7 @@ public class Card implements Comparable<Card> {
             else if (o.suit.ordinal() < o.suit.ordinal()) {return -1;}
             else  {return 1;}
         }
-        else if(this.tier.ordinal() < o.tier.ordinal()) {return -1;}
-        else {return 1;}
+        else if(this.tier.ordinal() < o.tier.ordinal()) {return 1;}
+        else {return -1;}
     }
 }
