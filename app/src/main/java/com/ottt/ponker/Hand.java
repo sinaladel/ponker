@@ -1,10 +1,19 @@
 package com.ottt.ponker;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Hand implements Comparable<Hand>{
-    Player owner;
+    Player owner = new Player("Player");
     ArrayList<Card> cards;
+
+    public Hand(Player owner) {
+        this.owner = owner;
+    }
+
+    public Hand (ArrayList<Card> cards) {
+        this.cards = cards;
+    }
 
     //check for pair then then two pair, then if true pass both pair tier into three of a kind
     //If pair and three of a kind are true, full house is true
@@ -29,6 +38,25 @@ public class Hand implements Comparable<Hand>{
 
 
     Tier checkForPair(ArrayList<Card> cards) {
+        ArrayList<Card> CardsToCheck = new ArrayList<Card>();
+        CardsToCheck.addAll(cards);
+        Collections.sort(CardsToCheck);
+
+        System.out.println(CardsToCheck);
+        Tier previousTier = Tier.INVALID;
+        for (Card c : CardsToCheck) {
+            if (previousTier.equals(Tier.INVALID)) {
+                previousTier = c.getTier();
+                System.out.println("Set initial tier to " + previousTier);
+                continue;
+            }
+            System.out.println("Comparing " + c.getTier() + " to " + previousTier);
+            if (c.getTier().equals(previousTier)) {
+
+                return c.getTier();
+            }
+            previousTier = c.getTier();
+        }
         return Tier.INVALID;
     }
 
@@ -45,29 +73,20 @@ public class Hand implements Comparable<Hand>{
     HandValue getHandValue(Hand h) {
         HandValue hv = HandValue.HIGH_CARD;
         Tier pairTier = checkForPair(h.cards);
+        System.out.println("Pair: " + pairTier);
         if (!pairTier.equals(Tier.INVALID)) { //has has at least one pair
 
-            Tier twoPairTier = checkForTwoPair(h, pairTier); //Check for two pair
+            ArrayList<Tier> twoPairTiers = checkForTwoPair(h, pairTier); //Check for two pair
+            System.out.println("Two-pair: " + twoPairTiers);
 
-            Tier fourOfKindTier = checkForFourOfKind(pairTier, twoPairTier); //Check for four of kind
+            Tier fourOfKindTier = checkForFourOfKind(twoPairTiers); //Check for four of kind
+            System.out.println("Four of a kind: " + fourOfKindTier);
 
             Tier threeOfKindTier = checkForThreeOfKind(h, pairTier);
+            System.out.println("Three of a kind: " + threeOfKindTier);
 
-
-
-            if (fourOfKindTier.equals(Tier.INVALID) && !twoPairTier.equals(Tier.INVALID)) { //The pairs were not identical, but a pair was found
-                hv = HandValue.TWO_PAIR; //could have full house
-                Tier FullHouseTier = checkForFullHouse(pairTier, twoPairTier, h);
-            }
-
-            else {
-                for (Card c:pair_p) {
-                    if (c.getTier().equals(pairTier)) {
-                         hv = HandValue.THREE_OF_A_KIND; //can only have three of a kind
-                    }
-
-                }
-            }
+            Tier fullHouseTier = checkForFullHouse(pairTier, threeOfKindTier, h);
+            System.out.println("Full house: " + fullHouseTier);
 
         }
         else {
@@ -82,37 +101,59 @@ public class Hand implements Comparable<Hand>{
     }
 
     private Tier checkForThreeOfKind(Hand h, Tier pairTier) {
+        ArrayList<Card> pair_p = removePair(h, pairTier);
 
-    }
-
-    private Tier checkForFullHouse(Tier pairTier, Tier twoPairTier, Hand h) {
-
-    }
-
-    private Tier checkForFourOfKind(Tier pairTier, Tier twoPairTier) {
-        if (pairTier.equals(twoPairTier)) {
-            return pairTier.ordinal() > twoPairTier.ordinal() ? pairTier : twoPairTier;
+        for (Card c:pair_p) {
+            if (c.getTier().equals(pairTier))
+                    return pairTier;
         }
         return Tier.INVALID;
     }
 
-    private Tier checkForTwoPair(Hand h, Tier pairTier) {
-        ArrayList<Card> pair_p = h.cards; //This will be all of the hand, excluding your pair
+    private ArrayList<Card> removePair(Hand h, Tier pairTier) {
+        ArrayList<Card> pair_p = new ArrayList<Card>();
+        pair_p.addAll(h.cards);
+        Card emptyCard = new Card(Tier.INVALID, Suit.INVALID);
+
         int i = 0;
-        for (Card c:h.cards) { //Remove only two cards of the tier found to be a pair
-            if (c.getTier().equals(pairTier)) {
-                pair_p.remove(c);
-                i++;
-            }
-            if (i > 1) {break;}
+        for (int j = 0; j < h.cards.size(); j++) {
+            if(pair_p.get(j).getTier().equals(pairTier)) { pair_p.set(j, emptyCard); i++; }
+            if (i > 1) break;
         }
-        return checkForPair(pair_p); //check for pair again
+        pair_p.removeAll(Collections.singleton(emptyCard));
+
+        System.out.println("Hand: " + h.cards);
+        System.out.println("Hand - pair removed: " + pair_p);
+
+        return pair_p;
+    }
+
+    private Tier checkForFullHouse(Tier pairTier, Tier threeOfKindTier, Hand h) {
+        return Tier.INVALID;
+    }
+
+    private Tier checkForFourOfKind(ArrayList<Tier> twoPairTiers) {
+        if (twoPairTiers.get(0).equals(twoPairTiers.get(1))) {
+            return twoPairTiers.get(0).ordinal() > twoPairTiers.get(1).ordinal() ? twoPairTiers.get(0) : twoPairTiers.get(1);
+        }
+        return Tier.INVALID;
+    }
+
+    private ArrayList<Tier> checkForTwoPair(Hand h, Tier pairTier) {
+        ArrayList<Card> pair_p = removePair(h, pairTier); //This will be all of the hand, excluding your pair
+        Tier pairTier2 = checkForPair(pair_p);  //check for pair again
+        ArrayList<Tier> twoPairTiers = new ArrayList<Tier>();
+        twoPairTiers.add(pairTier);
+        twoPairTiers.add(pairTier2);
+        return twoPairTiers;
     }
 
     private boolean checkForStraight() {
+        return false;
     }
 
     private boolean checkForFlush() {
+        return false;
     }
 
 
