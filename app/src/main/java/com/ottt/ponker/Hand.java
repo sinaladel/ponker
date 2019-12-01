@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Hand implements Comparable<Hand>{
-    Player owner = new Player("Player");
+    Player owner = null;
     ArrayList<Card> cards;
     Tier highCard = Tier.INVALID;
 
@@ -219,7 +219,7 @@ public class Hand implements Comparable<Hand>{
     public String[] toArray() {
         String[] array = new String[5];
         for (int i = 0; i < 5; i++) {
-            array[0] = cards.get(0).toString();
+            array[i] = cards.get(i).toString();
         }
         return array;
     }

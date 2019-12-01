@@ -39,4 +39,8 @@ public class Player {
         //Method stub
         //addCard is already functional
     }
+
+    public String getName() {
+        return this.name != null ? this.name : "Unamed player";
+    }
 }

@@ -54,4 +54,22 @@ public class Game {
         //Method stub
         return null;
     }
+
+    public static Player getCurrentPlayer() {
+        turn = players.get(playerIndex);
+        return turn;
+    }
+
+    public static void nextTurn() {
+        if (playerIndex == players.size() - 1)
+            playerIndex = 0;
+        else
+            playerIndex++;
+    }
+
+    public static int getCurrentTurn() {
+        return playerIndex;
+    }
+
+
 }

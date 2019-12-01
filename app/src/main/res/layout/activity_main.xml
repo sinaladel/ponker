@@ -7,60 +7,75 @@
     tools:context=".MainActivity">
 
     <ScrollView
-        android:id="@+id/gameLog"
-        android:layout_width="307dp"
-        android:layout_height="112dp"
+        android:id="@+id/gameLogContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.862">
+        app:layout_constraintTop_toBottomOf="@+id/txtViewWinner">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txtViewGameLog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <Button
-        android:id="@+id/buttonHideHand"
+        android:id="@+id/buttonNextTurn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="nextTurn"
         android:text="Next turn"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.641" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonDiscard" />
 
     <Button
         android:id="@+id/buttonDiscard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:onClick="discard"
         android:text="Discard"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.522" />
+        app:layout_constraintTop_toBottomOf="@+id/checkCard2" />
 
     <TextView
         android:id="@+id/txtViewCard0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="A\nA"
+        android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/txtViewCard1"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="277dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtViewCard1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="A\nA"
+        android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtViewCard0"
         app:layout_constraintEnd_toStartOf="@+id/txtViewCard2"
@@ -72,6 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="A\nA"
+        android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtViewCard1"
         app:layout_constraintEnd_toStartOf="@+id/txtViewCard3"
@@ -83,6 +99,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="A\nA"
+        android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtViewCard2"
         app:layout_constraintEnd_toStartOf="@+id/txtViewCard4"
@@ -95,6 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="A\nA"
+        android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtViewCard3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,47 +120,57 @@
         app:layout_constraintTop_toTopOf="@+id/txtViewCard3" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/checkCard0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@+id/txtViewCard0"
         app:layout_constraintStart_toStartOf="@+id/txtViewCard0"
-        tools:layout_editor_absoluteY="180dp" />
+        app:layout_constraintTop_toBottomOf="@+id/txtViewCard0" />
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/checkCard1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox"
+        app:layout_constraintBottom_toBottomOf="@+id/checkCard0"
         app:layout_constraintEnd_toEndOf="@+id/txtViewCard1"
         app:layout_constraintStart_toStartOf="@+id/txtViewCard1"
-        app:layout_constraintTop_toTopOf="@+id/checkBox" />
+        app:layout_constraintTop_toTopOf="@+id/checkCard0" />
 
     <CheckBox
-        android:id="@+id/checkBox3"
+        android:id="@+id/checkCard2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox2"
+        app:layout_constraintBottom_toBottomOf="@+id/checkCard1"
         app:layout_constraintEnd_toEndOf="@+id/txtViewCard2"
         app:layout_constraintStart_toStartOf="@+id/txtViewCard2"
-        app:layout_constraintTop_toTopOf="@+id/checkBox2" />
+        app:layout_constraintTop_toTopOf="@+id/checkCard1" />
 
     <CheckBox
-        android:id="@+id/checkBox4"
+        android:id="@+id/checkCard3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox3"
+        app:layout_constraintBottom_toBottomOf="@+id/checkCard2"
         app:layout_constraintEnd_toEndOf="@+id/txtViewCard3"
         app:layout_constraintStart_toStartOf="@+id/txtViewCard3"
-        app:layout_constraintTop_toTopOf="@+id/checkBox3" />
+        app:layout_constraintTop_toTopOf="@+id/checkCard2" />
 
     <CheckBox
-        android:id="@+id/checkBox5"
+        android:id="@+id/checkCard4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox4"
+        app:layout_constraintBottom_toBottomOf="@+id/checkCard3"
         app:layout_constraintEnd_toEndOf="@+id/txtViewCard4"
         app:layout_constraintStart_toStartOf="@+id/txtViewCard4"
-        app:layout_constraintTop_toTopOf="@+id/checkBox4" />
+        app:layout_constraintTop_toTopOf="@+id/checkCard3" />
+
+    <TextView
+        android:id="@+id/txtViewWinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonNextTurn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
