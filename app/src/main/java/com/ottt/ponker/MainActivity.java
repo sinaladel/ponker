@@ -4,46 +4,38 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView player4_txtBx, player1_txtBx, player2_txtBx, player3_txtBx;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_setup);
-        ArrayList<Card> cards = new ArrayList<>();
 
-        cards.add(new Card(Tier.TEN, Suit.CLUBS));
-        cards.add(new Card(Tier.TEN, Suit.SPADES));
-        cards.add(new Card(Tier.SEVEN, Suit.DIAMONDS));
-        cards.add(new Card(Tier.SEVEN, Suit.HEARTS));
-        cards.add(new Card(Tier.SEVEN, Suit.CLUBS));
-
-        Hand h = new Hand(cards);
-
-        ArrayList<Card> cards2 = new ArrayList<>();
-
-        cards2.add(new Card(Tier.ACE, Suit.HEARTS));
-        cards2.add(new Card(Tier.ACE, Suit.SPADES));
-        cards2.add(new Card(Tier.ACE, Suit.DIAMONDS));
-        cards2.add(new Card(Tier.EIGHT, Suit.CLUBS));
-        cards2.add(new Card(Tier.EIGHT, Suit.HEARTS));
-
-        Hand h2 = new Hand(cards2);
-
-        h.compareTo(h2);
-
-        ArrayList<Hand> hands = new ArrayList<>();
-        hands.add(h);
-        hands.add(h2);
-
-        Collections.sort(hands);
-        System.out.println(hands.get(0).cards);
+        populateViewsForSetup();
 
     }
+
+    private void populateViewsForSetup() {
+        player1_txtBx = findViewById(R.id.player1_txtBx);
+        player2_txtBx = findViewById(R.id.player2_txtBx);
+        player3_txtBx = findViewById(R.id.player3_txtBx);
+        player4_txtBx = findViewById(R.id.player4_txtBx);
+
+
+    }
+    private void populateViewsForGame() {
+        //Method stub
+
+    }
+
 
     //getActionBar.setTitle()
 
@@ -51,5 +43,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void initialiseGame(View v) {
         setContentView(R.layout.activity_main);
+
+        Game.initialiseGame(player1_txtBx.getText().toString(), player2_txtBx.getText().toString(),
+                            player3_txtBx.getText().toString(), player4_txtBx.getText().toString());
+        Game.dealPlayers();
+
+        populateViewsForGame();
+        updateViews();
     }
+
+    private void updateViews() {
+        //Method stub
+
+
+    }
+
+
 }

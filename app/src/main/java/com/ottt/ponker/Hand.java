@@ -16,6 +16,14 @@ public class Hand implements Comparable<Hand>{
         this.cards = cards;
     }
 
+    public void removeAll(ArrayList<Card> cardsToRemove) {
+        cards.removeAll(Collections.singleton(cardsToRemove));
+    }
+
+    public void addCard() {
+        cards.add(Game.deck.nextCard());
+    }
+
     public int compareTo(Hand o) {
         HandValue hv = this.getHandValue();
         HandValue o_hv = o.getHandValue();
@@ -206,6 +214,14 @@ public class Hand implements Comparable<Hand>{
             if (!c.getSuit().equals(previousSuit)) {return Tier.INVALID;}
         }
         return cards.get(0).getTier();
+    }
+
+    public String[] toArray() {
+        String[] array = new String[5];
+        for (int i = 0; i < 5; i++) {
+            array[0] = cards.get(0).toString();
+        }
+        return array;
     }
 
 }
