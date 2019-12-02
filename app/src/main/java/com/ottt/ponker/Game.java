@@ -5,24 +5,16 @@ import java.util.ArrayList;
 public class Game {
     public static Deck deck = new Deck(true);
 
-    private static ArrayList<Player> players = new ArrayList<Player>();
+    private static ArrayList<Player> players = new ArrayList<>();
     private static Player turn;
     private static int playerIndex = 0;
-    Player player = new Player();
 
     //fill the player arraylist with new players, pass the Strings into the Player constructors
 
-    public static void initialiseGame(String p1, String p2, String p3, String p4) {
-        Player player1 = new Player(p1);
-        players.add(player1);
-        Player player2 = new Player(p2);
-        players.add(player2);
-        Player player3 = new Player(p3);
-        players.add(player3);
-        Player player4 = new Player(p4);
-        players.add(player4);
-
-
+    public static void initialiseGame(String... p) {
+        for (String s : p) {
+            players.add(new Player(s));
+        }
     }
 
     /*
