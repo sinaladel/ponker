@@ -1,6 +1,8 @@
 package com.ottt.ponker;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 
 public class Game {
     public static Deck deck = new Deck(true);
@@ -53,12 +55,16 @@ public class Game {
         //getHand in the player class
         //Collections.sort
         //getOwner in the Hand class
-
+        LinkedList<Hand> allHands = new LinkedList<>();
+        for (Player i : players) {
+            allHands.add(i.getHand());
+        }
+        Collections.sort(allHands);
+        return allHands.pop().owner;
         //you will also need a loop
 
 
         //Method stub
-        return null;
     }
 
     public static Player getCurrentPlayer() {
