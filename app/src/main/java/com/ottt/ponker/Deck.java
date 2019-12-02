@@ -14,16 +14,11 @@ public class Deck {
                 cards.add(new Card(Tier.values()[i], Suit.values()[j]));
             }
         }
-        if (shuffle)
-            shuffle();
+        if (shuffle) shuffle();
     }
 
     public Deck() {
-        for (int i = 0; i < 13; i++) {
-            for (int j = 0; j < 4; j++) {
-                cards.add(new Card(Tier.values()[i], Suit.values()[j]));
-            }
-        }
+        this(false);
     }
 
     @Override

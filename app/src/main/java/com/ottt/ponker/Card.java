@@ -3,22 +3,16 @@ package com.ottt.ponker;
 import androidx.annotation.NonNull;
 
 public class Card implements Comparable<Card> {
-    private Tier tier = Tier.INVALID;
-    private Suit suit = Suit.INVALID;
+    private Tier tier;
+    private Suit suit;
 
 
     public Card(Tier tier, Suit suit) {
-        if (tier != null) {
-            this.tier = tier;
-        } else {
-            System.err.println("Card tier cannot be null!");
+        if (tier == null || suit == null) {
+            throw new IllegalArgumentException("Arguments cannot be null");
         }
-
-        if (suit != null) {
-            this.suit = suit;
-        } else {
-            System.err.println("Card suit cannot be null!");
-        }
+        this.tier = tier;
+        this.suit = suit;
     }
 
     public Tier getTier() {
