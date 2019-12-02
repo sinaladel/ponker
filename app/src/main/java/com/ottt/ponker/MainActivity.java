@@ -84,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateViews() {
-        getActionBar().setTitle(Game.getCurrentPlayer().getName()); //Enable this once Game class is functional
+        String titleBar = Game.getCurrentPlayer().getName();
+//        getActionBar().setTitle(titleBar); //Enable this once Game class is functional
 
         //String[] cards = Game.getCurrentPlayer().getHand().toArray(); // Enable this once Game class is functional
 
