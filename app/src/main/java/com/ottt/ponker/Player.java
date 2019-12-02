@@ -19,6 +19,9 @@ public class Player {
         return hand;
     }
 
+    public Player() {
+    }
+
     Card getLastCard() {
         //
         return null;
@@ -30,12 +33,13 @@ public class Player {
 
     //remove all of the cards from the hand using the removeAll method in the Hand class
     public void discard(ArrayList<Card> cardsToDiscard) {
-        //Method stub
-        //removeAll is already functional
+        hand.removeAll(cardsToDiscard);
     }
 
     //add as many cards to the hand as necessary to make it a five card hand using the addCard method in the Hand class
     public void refillHand() {
+        getHand();
+
         //Method stub
         //addCard is already functional
     }

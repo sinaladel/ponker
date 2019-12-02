@@ -1,13 +1,12 @@
 package com.ottt.ponker;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
@@ -17,9 +16,10 @@ public class MainActivity extends AppCompatActivity {
 
     String gameLog = "";
 
-    CheckBox checkCard0, checkCard1, checkCard2, checkCard3, checkCard4;
+    public CheckBox checkCard0, checkCard1, checkCard2, checkCard3, checkCard4;
     TextView txtViewCard0, txtViewCard1, txtViewCard2, txtViewCard3, txtViewCard4, txtViewWinner,txtViewGameLog;
     Button buttonDiscard, buttonNextTurn;
+    ArrayList<CheckBox> checkBoxList = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         populateViewsForSetup();
 
+
+
     }
 
     private void populateViewsForSetup() {
@@ -35,7 +37,11 @@ public class MainActivity extends AppCompatActivity {
         player2_txtBx = findViewById(R.id.player2_txtBx);
         player3_txtBx = findViewById(R.id.player3_txtBx);
         player4_txtBx = findViewById(R.id.player4_txtBx);
-
+        checkBoxList.add(checkCard0);
+        checkBoxList.add(checkCard1);
+        checkBoxList.add(checkCard2);
+        checkBoxList.add(checkCard3);
+        checkBoxList.add(checkCard4);
 
     }
     private void populateViewsForGame() {
@@ -81,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateViews() {
         getActionBar().setTitle(Game.getCurrentPlayer().getName()); //Enable this once Game class is functional
 
-        String[] cards = Game.getCurrentPlayer().getHand().toArray(); // Enable this once Game class is functional
+        //String[] cards = Game.getCurrentPlayer().getHand().toArray(); // Enable this once Game class is functional
 
         //region Debugging hand //Remove when Game class is functional
         ArrayList<Card> cardList = new ArrayList<Card>();
@@ -134,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
         if (checkCard4.isChecked()) {
             selectedCards.add(Game.getCurrentPlayer().getHand().cards.get(4));
         }
+
 
 
         //region debug //delete when Game class is functional

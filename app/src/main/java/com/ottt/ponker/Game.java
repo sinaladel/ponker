@@ -1,5 +1,8 @@
 package com.ottt.ponker;
 
+import android.widget.CheckBox;
+import android.widget.EditText;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -8,10 +11,20 @@ public class Game {
     private static ArrayList<Player> players = new ArrayList<Player>();
     private static Player turn;
     private static int playerIndex = 0;
-
+    Player player = new Player();
 
     //fill the player arraylist with new players, pass the Strings into the Player constructors
+
     public static void initialiseGame(String p1, String p2, String p3, String p4) {
+        Player player1 = new Player(p1);
+        players.add(player1);
+        Player player2 = new Player(p2);
+        players.add(player2);
+        Player player3 = new Player(p3);
+        players.add(player3);
+        Player player4 = new Player(p4);
+        players.add(player4);
+
 
     }
 
@@ -24,15 +37,18 @@ public class Game {
 
     //give each player a full five-card deck using the dealmeIn method from the player class
     public static void dealPlayers() {
-        //Method stub
+        for (Player o : players) {
+            o.dealMeIn();
+        }
+
 
     }
 
     //Discard the cards from the list that is passed in from the current player's hand using the discard method in the Player class
     //The player's discard method is also a stub, please fill out the logic for that
     public static void discard(ArrayList<Card> cardsToDiscard) {
-
-        turn.discard(cardsToDiscard);
+        Player p = getCurrentPlayer();
+        p.discard(cardsToDiscard);
     }
 
     //refill the current player's hand with the refillHand method in the player class
