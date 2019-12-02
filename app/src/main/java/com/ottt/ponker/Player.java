@@ -1,29 +1,25 @@
 package com.ottt.ponker;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Player {
+
+
+    private String name;
+    private Hand hand;
 
     public Player(String name) {
         this.name = name;
         hand = new Hand(this);
     }
 
-    private String name;
-    private Hand hand;
-
-
-
     public Hand getHand() {
         return hand;
     }
 
-    public Player() {
-    }
 
     Card getLastCard() {
-        //
+        //c
         return null;
     }
 
@@ -45,6 +41,6 @@ public class Player {
     }
 
     public String getName() {
-        return this.name != null ? this.name : "Unamed player";
+        return this.name != null ? this.name : "Unnamed player";
     }
 }
