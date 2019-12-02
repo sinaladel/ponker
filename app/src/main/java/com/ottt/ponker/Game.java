@@ -17,11 +17,11 @@ public class Game {
         }
     }
 
-    /*
-    Each player is given a five-card hand
-    each player is given the opportunity to choose any number of cards to discard from their hand
-    each player is given the number of cards to complete their hand
-    a winner is chosen
+    /**
+     * Each player is given a five-card hand
+     * each player is given the opportunity to choose any number of cards to discard from their hand
+     * each player is given the number of cards to complete their hand
+     * a winner is chosen
      */
 
     //give each player a full five-card deck using the dealmeIn method from the player class
@@ -33,8 +33,10 @@ public class Game {
 
     }
 
-    //Discard the cards from the list that is passed in from the current player's hand using the discard method in the Player class
-    //The player's discard method is also a stub, please fill out the logic for that
+    /**
+     * Discard the cards from the list that is passed in from the current player's hand using the discard method in the Player class
+     * The player's discard method is also a stub, please fill out the logic for that
+     */
     public static void discard(ArrayList<Card> cardsToDiscard) {
         Player p = getCurrentPlayer();
         p.discard(cardsToDiscard);
