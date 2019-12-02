@@ -1,7 +1,6 @@
 package com.ottt.ponker;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Player {
 
@@ -12,7 +11,6 @@ public class Player {
 
     private String name;
     private Hand hand;
-
 
 
     public Hand getHand() {

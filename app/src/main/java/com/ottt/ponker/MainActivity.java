@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     String gameLog = "";
 
     public CheckBox checkCard0, checkCard1, checkCard2, checkCard3, checkCard4;
-    TextView txtViewCard0, txtViewCard1, txtViewCard2, txtViewCard3, txtViewCard4, txtViewWinner,txtViewGameLog;
+    TextView txtViewCard0, txtViewCard1, txtViewCard2, txtViewCard3, txtViewCard4, txtViewWinner, txtViewGameLog;
     Button buttonDiscard, buttonNextTurn;
     ArrayList<CheckBox> checkBoxList = new ArrayList();
 
@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.game_setup);
 
         populateViewsForSetup();
-
 
 
     }
@@ -44,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         checkBoxList.add(checkCard4);
 
     }
+
     private void populateViewsForGame() {
 
         txtViewCard0 = findViewById(R.id.txtViewCard0);
@@ -70,12 +70,11 @@ public class MainActivity extends AppCompatActivity {
     //getActionBar.setTitle()
 
 
-
     public void initialiseGame(View v) {
         setContentView(R.layout.activity_main);
 
         Game.initialiseGame(player1_txtBx.getText().toString(), player2_txtBx.getText().toString(),
-                            player3_txtBx.getText().toString(), player4_txtBx.getText().toString());
+                player3_txtBx.getText().toString(), player4_txtBx.getText().toString());
         Game.dealPlayers();
         gameLog += "Each player has been dealt a five card hand\n";
 
@@ -91,11 +90,11 @@ public class MainActivity extends AppCompatActivity {
 
         //region Debugging hand //Remove when Game class is functional
         ArrayList<Card> cardList = new ArrayList<Card>();
-        cardList.add(new Card(Tier.ACE,Suit.SPADES));
-        cardList.add(new Card(Tier.SEVEN,Suit.CLUBS));
-        cardList.add(new Card(Tier.JACK,Suit.SPADES));
-        cardList.add(new Card(Tier.TWO,Suit.HEARTS));
-        cardList.add(new Card(Tier.FOUR,Suit.SPADES));
+        cardList.add(new Card(Tier.ACE, Suit.SPADES));
+        cardList.add(new Card(Tier.SEVEN, Suit.CLUBS));
+        cardList.add(new Card(Tier.JACK, Suit.SPADES));
+        cardList.add(new Card(Tier.TWO, Suit.HEARTS));
+        cardList.add(new Card(Tier.FOUR, Suit.SPADES));
 
         Hand h = new Hand(cardList);
         System.out.println(h.cards);
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         //endregion
 
         int i = 0;
-        for (String s:cards) {
+        for (String s : cards) {
             cards[i] = formatForTxtView(s);
             i++;
         }
@@ -124,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     public void discard(View v) {
         ArrayList<Card> selectedCards = new ArrayList<>();
 
-         // Enable once Game class is functional
+        // Enable once Game class is functional
         if (checkCard0.isChecked()) {
             selectedCards.add(Game.getCurrentPlayer().getHand().cards.get(0));
         }
@@ -140,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
         if (checkCard4.isChecked()) {
             selectedCards.add(Game.getCurrentPlayer().getHand().cards.get(4));
         }
-
 
 
         //region debug //delete when Game class is functional

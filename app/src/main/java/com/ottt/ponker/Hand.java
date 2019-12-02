@@ -3,7 +3,7 @@ package com.ottt.ponker;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Hand implements Comparable<Hand>{
+public class Hand implements Comparable<Hand> {
     Player owner = null;
     ArrayList<Card> cards;
     Tier highCard = Tier.INVALID;
@@ -12,7 +12,7 @@ public class Hand implements Comparable<Hand>{
         this.owner = owner;
     }
 
-    public Hand (ArrayList<Card> cards) {
+    public Hand(ArrayList<Card> cards) {
         this.cards = cards;
     }
 
@@ -33,8 +33,7 @@ public class Hand implements Comparable<Hand>{
         //compare the value of the hand, compare the high card if the hand value is equal
         if (hv.equals(o_hv)) {
             return this.highCard.compareTo(o.highCard);
-        }
-        else return hv.compareTo(o_hv) * -1; //compare in reverse order
+        } else return hv.compareTo(o_hv) * -1; //compare in reverse order
     }
 
     HandValue getHandValue() {
@@ -62,22 +61,20 @@ public class Hand implements Comparable<Hand>{
             if (!fourOfKindTier.equals(Tier.INVALID)) {
                 highCard = fourOfKindTier;
                 return HandValue.FOUR_OF_A_KIND; //Four of kind - no other hands are possible: return
-            }
-            else if (!fullHouseTier.equals(Tier.INVALID)) {
+            } else if (!fullHouseTier.equals(Tier.INVALID)) {
                 highCard = fullHouseTier;
                 return HandValue.FULL_HOUSE; //Full house - no other hands are possible: return
-            }
-            else if (!threeOfKindTier.equals(Tier.INVALID)) {
+            } else if (!threeOfKindTier.equals(Tier.INVALID)) {
                 highCard = threeOfKindTier;
                 return HandValue.THREE_OF_A_KIND; //Already checked for full house - no higher hands are possible: return
-            }
-            else if (!twoPairTiers.equals(Tier.INVALID)) {
+            } else if (!twoPairTiers.equals(Tier.INVALID)) {
                 highCard = twoPairTiers.get(0);
                 return HandValue.TWO_PAIR; //Already checked for higher value hands: return
-            }
-            else {highCard = pairTier; return HandValue.PAIR;} //All higher value hands have been checked for, must be pair: return
-        }
-        else { //Does not have any matching cards flush and straight are possible
+            } else {
+                highCard = pairTier;
+                return HandValue.PAIR;
+            } //All higher value hands have been checked for, must be pair: return
+        } else { //Does not have any matching cards flush and straight are possible
             Tier flushTier = checkForFlush();
             System.out.println("Flush: " + flushTier);
 
@@ -87,12 +84,10 @@ public class Hand implements Comparable<Hand>{
             if (!flushTier.equals(Tier.INVALID) && !straightTier.equals(Tier.INVALID)) {
                 highCard = flushTier;
                 return HandValue.STRAIGHT_FLUSH; //Has straight flush, no other hands are possible
-            }
-            else if (!flushTier.equals(Tier.INVALID)) {
+            } else if (!flushTier.equals(Tier.INVALID)) {
                 highCard = flushTier;
                 return HandValue.FLUSH; //Has flush only: return
-            }
-            else if (!straightTier.equals(Tier.INVALID)) {
+            } else if (!straightTier.equals(Tier.INVALID)) {
                 highCard = straightTier;
                 return HandValue.STRAIGHT; //Has straight only: return
             }
@@ -128,7 +123,10 @@ public class Hand implements Comparable<Hand>{
 
         int i = 0;
         for (int j = 0; j < cards.size(); j++) { //loop through the list and replace only two cards of matching tier with empty cards
-            if(pair_p.get(j).getTier().equals(pairTier)) { pair_p.set(j, emptyCard); i++; }
+            if (pair_p.get(j).getTier().equals(pairTier)) {
+                pair_p.set(j, emptyCard);
+                i++;
+            }
             if (i > 1) break;
         }
         pair_p.removeAll(Collections.singleton(emptyCard)); //remove all empty cards
@@ -160,7 +158,9 @@ public class Hand implements Comparable<Hand>{
     private Tier checkForThreeOfKind(ArrayList<Tier> twoPairTiers) {
 
         for (int i = 0; i < 2; i++) { //Check for three of kind on any previously found pair
-            if (twoPairTiers.get(i).equals(Tier.INVALID)) { continue; }
+            if (twoPairTiers.get(i).equals(Tier.INVALID)) {
+                continue;
+            }
             ArrayList<Card> pair_p = removePair(twoPairTiers.get(i));
             System.out.println(pair_p);
             for (Card c : pair_p) {
@@ -175,8 +175,12 @@ public class Hand implements Comparable<Hand>{
 
     private Tier checkForFullHouse(ArrayList<Tier> twoPairTiers, Tier threeOfKindTier) {
         for (int i = 0; i < 2; i++) {
-            if (twoPairTiers.get(i).equals(Tier.INVALID)) {break;} //if there is no pair,there cannot be a full house
-            if (twoPairTiers.get(i).equals(threeOfKindTier)) {continue;} //if the first pair is equal to the three of a kind, continue to the second pair
+            if (twoPairTiers.get(i).equals(Tier.INVALID)) {
+                break;
+            } //if there is no pair,there cannot be a full house
+            if (twoPairTiers.get(i).equals(threeOfKindTier)) {
+                continue;
+            } //if the first pair is equal to the three of a kind, continue to the second pair
             if (!twoPairTiers.get(i).equals(Tier.INVALID) && !threeOfKindTier.equals(Tier.INVALID)) {
                 //if there is a unique pair and three of kind in the hand, you have a full house
                 return twoPairTiers.get(i).ordinal() < threeOfKindTier.ordinal() ? twoPairTiers.get(i) : threeOfKindTier;
@@ -189,7 +193,7 @@ public class Hand implements Comparable<Hand>{
     private Tier checkForStraight() {
         //loop through the entire hand to check if each subsequent tier is different by exactly 1
         Tier previousTier = Tier.INVALID;
-        for (Card c:cards) {
+        for (Card c : cards) {
             if (previousTier.equals(Tier.INVALID)) {
                 previousTier = c.getTier();
                 continue;
@@ -206,12 +210,14 @@ public class Hand implements Comparable<Hand>{
     private Tier checkForFlush() {
         //loop through the entire hand to check if each suit is the same
         Suit previousSuit = Suit.INVALID;
-        for (Card c: cards) {
+        for (Card c : cards) {
             if (previousSuit.equals(Suit.INVALID)) {
                 previousSuit = c.getSuit();
                 continue;
             }
-            if (!c.getSuit().equals(previousSuit)) {return Tier.INVALID;}
+            if (!c.getSuit().equals(previousSuit)) {
+                return Tier.INVALID;
+            }
         }
         return cards.get(0).getTier();
     }

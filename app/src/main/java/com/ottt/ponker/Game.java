@@ -1,8 +1,5 @@
 package com.ottt.ponker;
 
-import android.widget.CheckBox;
-import android.widget.EditText;
-
 import java.util.ArrayList;
 
 public class Game {
@@ -64,7 +61,6 @@ public class Game {
         //getOwner in the Hand class
 
         //you will also need a loop
-
 
 
         //Method stub

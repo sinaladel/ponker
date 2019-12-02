@@ -1,7 +1,5 @@
 package com.ottt.ponker;
 
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -19,6 +17,7 @@ public class Deck {
         if (shuffle)
             shuffle();
     }
+
     public Deck() {
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 4; j++) {
@@ -30,7 +29,9 @@ public class Deck {
     @Override
     public String toString() {
         String s = "";
-        for (Card c:cards) {s += c.toString() + " | ";}
+        for (Card c : cards) {
+            s += c.toString() + " | ";
+        }
         return s;
     }
 
