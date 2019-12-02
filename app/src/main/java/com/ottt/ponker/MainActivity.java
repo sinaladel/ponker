@@ -8,9 +8,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ottt.ponker.enums.Suit;
-import com.ottt.ponker.enums.Tier;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -79,23 +76,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateViews() {
-        String titleBar = Game.getCurrentPlayer().getName();
-//        getActionBar().setTitle(titleBar); //Enable this once Game class is functional
+        //String titleBar = Game.getCurrentPlayer().getName(); // This is fucked on Sina's laptop so idk fix it Daemond
 
-        //String[] cards = Game.getCurrentPlayer().getHand().toArray(); // Enable this once Game class is functional
-
-        //region Debugging hand //Remove when Game class is functional
-        ArrayList<Card> cardList = new ArrayList<Card>();
-        cardList.add(new Card(Tier.ACE, Suit.SPADES));
-        cardList.add(new Card(Tier.SEVEN, Suit.CLUBS));
-        cardList.add(new Card(Tier.JACK, Suit.SPADES));
-        cardList.add(new Card(Tier.TWO, Suit.HEARTS));
-        cardList.add(new Card(Tier.FOUR, Suit.SPADES));
-
-        Hand h = new Hand(cardList);
+        Hand h = Game.getCurrentPlayer().getHand();
         System.out.println(h.cards);
         String[] cards = h.toArray();
-        //endregion
 
         int i = 0;
         for (String s : cards) {
@@ -107,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         txtViewCard2.setText(cards[2]);
         txtViewCard3.setText(cards[3]);
         txtViewCard4.setText(cards[4]);
-
         txtViewGameLog.setText(gameLog);
     }
 

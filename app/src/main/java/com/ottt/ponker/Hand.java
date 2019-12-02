@@ -4,21 +4,25 @@ import com.ottt.ponker.enums.HandValue;
 import com.ottt.ponker.enums.Suit;
 import com.ottt.ponker.enums.Tier;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Hand implements Comparable<Hand> {
     Player owner = null;
-    ArrayList<Card> cards = new ArrayList<>();
+    ArrayList<Card> cards;
     Tier highCard = Tier.INVALID;
+
+    public Hand(Player owner, ArrayList<Card> handContent) {
+        this.owner = owner;
+        this.cards = handContent;
+    }
 
     public Hand(Player owner) {
         this.owner = owner;
-    }
-
-    public Hand(ArrayList<Card> cards) {
-        this.cards = cards;
+        this.cards = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            cards.add(Game.deck.nextCard());
+        }
     }
 
     public void removeAll(ArrayList<Card> cardsToRemove) {
