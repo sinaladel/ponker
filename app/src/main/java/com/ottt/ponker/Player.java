@@ -41,6 +41,6 @@ public class Player {
     }
 
     public String getName() {
-        return this.name != null ? this.name : "Unamed player";
+        return this.name != null ? this.name : "Unnamed player";
     }
 }
