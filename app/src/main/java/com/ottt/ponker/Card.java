@@ -2,6 +2,9 @@ package com.ottt.ponker;
 
 import androidx.annotation.NonNull;
 
+import com.ottt.ponker.enums.Suit;
+import com.ottt.ponker.enums.Tier;
+
 public class Card implements Comparable<Card> {
     private Tier tier;
     private Suit suit;

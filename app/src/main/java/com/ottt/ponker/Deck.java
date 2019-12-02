@@ -1,5 +1,8 @@
 package com.ottt.ponker;
 
+import com.ottt.ponker.enums.Suit;
+import com.ottt.ponker.enums.Tier;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;

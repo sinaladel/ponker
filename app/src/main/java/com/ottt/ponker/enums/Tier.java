@@ -1,4 +1,4 @@
-package com.ottt.ponker;
+package com.ottt.ponker.enums;
 
 public enum Tier {
     ACE,

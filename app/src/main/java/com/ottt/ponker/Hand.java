@@ -1,5 +1,9 @@
 package com.ottt.ponker;
 
+import com.ottt.ponker.enums.HandValue;
+import com.ottt.ponker.enums.Suit;
+import com.ottt.ponker.enums.Tier;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
