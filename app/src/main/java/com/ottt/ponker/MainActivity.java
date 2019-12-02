@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     String gameLog = "";
 
-    public CheckBox checkCard0, checkCard1, checkCard2, checkCard3, checkCard4;
     TextView txtViewCard0, txtViewCard1, txtViewCard2, txtViewCard3, txtViewCard4, txtViewWinner, txtViewGameLog;
     Button buttonDiscard, buttonNextTurn;
     ArrayList<CheckBox> checkBoxList = new ArrayList();
@@ -36,11 +35,6 @@ public class MainActivity extends AppCompatActivity {
         player2_txtBx = findViewById(R.id.player2_txtBx);
         player3_txtBx = findViewById(R.id.player3_txtBx);
         player4_txtBx = findViewById(R.id.player4_txtBx);
-        checkBoxList.add(checkCard0);
-        checkBoxList.add(checkCard1);
-        checkBoxList.add(checkCard2);
-        checkBoxList.add(checkCard3);
-        checkBoxList.add(checkCard4);
 
     }
 
@@ -52,11 +46,12 @@ public class MainActivity extends AppCompatActivity {
         txtViewCard3 = findViewById(R.id.txtViewCard3);
         txtViewCard4 = findViewById(R.id.txtViewCard4);
 
-        checkCard0 = findViewById(R.id.checkCard0);
-        checkCard1 = findViewById(R.id.checkCard1);
-        checkCard2 = findViewById(R.id.checkCard2);
-        checkCard3 = findViewById(R.id.checkCard3);
-        checkCard4 = findViewById(R.id.checkCard4);
+        checkBoxList.add((CheckBox) findViewById(R.id.checkCard0));
+        checkBoxList.add((CheckBox) findViewById(R.id.checkCard1));
+        checkBoxList.add((CheckBox) findViewById(R.id.checkCard2));
+        checkBoxList.add((CheckBox) findViewById(R.id.checkCard3));
+        checkBoxList.add((CheckBox) findViewById(R.id.checkCard4));
+        // Safe casting, we know that these will always be CheckBoxes
 
         txtViewWinner = findViewById(R.id.txtViewWinner);
 
@@ -125,46 +120,25 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Card> selectedCards = new ArrayList<>();
 
         // Enable once Game class is functional
-        if (checkCard0.isChecked()) {
+        if (checkBoxList.get(0).isChecked()) {
             selectedCards.add(Game.getCurrentPlayer().getHand().cards.get(0));
         }
-        if (checkCard1.isChecked()) {
+        if (checkBoxList.get(1).isChecked()) {
             selectedCards.add(Game.getCurrentPlayer().getHand().cards.get(1));
         }
-        if (checkCard2.isChecked()) {
+        if (checkBoxList.get(2).isChecked()) {
             selectedCards.add(Game.getCurrentPlayer().getHand().cards.get(2));
         }
-        if (checkCard3.isChecked()) {
+        if (checkBoxList.get(3).isChecked()) {
             selectedCards.add(Game.getCurrentPlayer().getHand().cards.get(3));
         }
-        if (checkCard4.isChecked()) {
+        if (checkBoxList.get(4).isChecked()) {
             selectedCards.add(Game.getCurrentPlayer().getHand().cards.get(4));
         }
 
 
-        //region debug //delete when Game class is functional
-        /*
-        if (checkCard0.isChecked()) {
-            selectedCards.add(null);
-        }
-        if (checkCard1.isChecked()) {
-            selectedCards.add(null);
-        }
-        if (checkCard2.isChecked()) {
-            selectedCards.add(null);
-        }
-        if (checkCard3.isChecked()) {
-            selectedCards.add(null);
-        }
-        if (checkCard4.isChecked()) {
-            selectedCards.add(null);
-        }
-         */
-        //endregion
-
-        //Enable blahhhhh blahh
         gameLog += Game.getCurrentPlayer().getName() + " discards " + selectedCards.size() + " cards\n";
-        //gameLog += "PLAAAFYRE" + " discards " + selectedCards.size() + " cards\n"; //debug
+
 
         Game.discard(selectedCards); //Enable once Game class is functional
 
@@ -193,11 +167,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void resetCheckBoxes() {
-        checkCard0.setChecked(false);
-        checkCard1.setChecked(false);
-        checkCard2.setChecked(false);
-        checkCard3.setChecked(false);
-        checkCard4.setChecked(false);
+        for (CheckBox checkBox : checkBoxList) {
+            checkBox.setChecked(false);
+        }
     }
 
     private void hideHand() {
