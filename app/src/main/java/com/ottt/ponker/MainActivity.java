@@ -76,17 +76,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateViews() {
-        //String titleBar = Game.getCurrentPlayer().getName(); // This is fucked on Sina's laptop so idk fix it Daemond
+        //String titleBar = Game.getCurrentPlayer().getName(); // This doesn't work on Sina's laptop so idk fix it Daemond
 
         Hand h = Game.getCurrentPlayer().getHand();
         System.out.println(h.cards);
         String[] cards = h.toArray();
 
-        int i = 0;
-        for (String s : cards) {
-            cards[i] = formatForTxtView(s);
-            i++;
-        }
+
         txtViewCard0.setText(cards[0]);
         txtViewCard1.setText(cards[1]);
         txtViewCard2.setText(cards[2]);
