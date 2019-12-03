@@ -12,7 +12,7 @@ public class Deck {
     private LinkedList<Card> cards = new LinkedList<>();
 
     public Deck(boolean shuffle) {
-        for (int i = 1; i < 13; i++) {
+        for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 4; j++) {
                 cards.add(new Card(Tier.values()[i], Suit.values()[j]));
             }

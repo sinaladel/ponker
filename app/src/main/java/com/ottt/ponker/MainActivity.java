@@ -73,11 +73,11 @@ public class MainActivity extends AppCompatActivity {
         populateViewsForGame();
         buttonNextTurn.setEnabled(false);
         updateViews();
+        System.out.println(Game.deck.toString());
     }
 
     private void updateViews() {
         //String titleBar = Game.getCurrentPlayer().getName(); // This doesn't work on Sina's laptop so idk fix it Daemond
-
         Hand h = Game.getCurrentPlayer().getHand();
         System.out.println(h.cards);
         String[] cards = h.toArray();
@@ -97,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void discard(View v) {
+
+        if (Game.getCurrentTurn() == 3) {
+            endGame();
+        }
         ArrayList<Card> selectedCards = new ArrayList<>();
 
         // Enable once Game class is functional
@@ -131,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
     public void nextTurn(View v) {
         if (Game.getCurrentTurn() == 3) {
             endGame();
+            return;
         }
         Game.nextTurn();
         buttonNextTurn.setEnabled(false);
@@ -143,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         hideHand();
         buttonDiscard.setEnabled(false);
         buttonNextTurn.setEnabled(false);
-        txtViewWinner.setText(Game.getWinner().getName());
+        txtViewWinner.setText(Game.getWinner().getName() + " wins!");
     }
 
     private void resetCheckBoxes() {
