@@ -1,10 +1,6 @@
 package com.ottt.ponker.enums;
 
 public enum Tier {
-    ACE,
-    KING,
-    QUEEN,
-    JACK,
     TWO,
     THREE,
     FOUR,
@@ -14,5 +10,9 @@ public enum Tier {
     EIGHT,
     NINE,
     TEN,
+    JACK,
+    QUEEN,
+    KING,
+    ACE,
     INVALID
 }

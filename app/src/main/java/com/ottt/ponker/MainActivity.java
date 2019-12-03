@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ottt.ponker.enums.HandValue;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     String gameLog = "";
 
-    TextView txtViewCard0, txtViewCard1, txtViewCard2, txtViewCard3, txtViewCard4, txtViewWinner, txtViewGameLog;
+    TextView txtViewCard0, txtViewCard1, txtViewCard2, txtViewCard3, txtViewCard4, txtViewWinner, txtViewShowDown, txtViewGameLog;
     Button buttonDiscard, buttonNextTurn;
     ArrayList<CheckBox> checkBoxList = new ArrayList();
 
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         checkBoxList.add((CheckBox) findViewById(R.id.checkCard3));
         checkBoxList.add((CheckBox) findViewById(R.id.checkCard4));
         // Safe casting, we know that these will always be CheckBoxes
+
+        txtViewShowDown = findViewById(R.id.txtViewShowdown);
 
         txtViewWinner = findViewById(R.id.txtViewWinner);
 
@@ -144,11 +148,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void endGame() {
+
+        Player winner = Game.getWinner();
+        HandValue hv = winner.getHand().getHandValue();
+        String hand;
+
+        switch (hv) {
+            case HIGH_CARD:
+                hand = "a high-card";
+                break;
+
+            case PAIR:
+                hand = "a pair";
+                break;
+            case TWO_PAIR:
+                hand = "two-pair";
+                break;
+            case THREE_OF_A_KIND:
+                hand = "three of a kind";
+                break;
+            case STRAIGHT:
+                hand = "a straight";
+                break;
+            case FLUSH:
+                hand = "a flush";
+                break;
+            case FULL_HOUSE:
+                hand = "a full house";
+                break;
+            case FOUR_OF_A_KIND:
+                hand = "four of a kind";
+                break;
+            case STRAIGHT_FLUSH:
+                hand = "a straight flush";
+                break;
+                default:
+                    hand = "somtin";
+        }
+
         resetCheckBoxes();
         hideHand();
         buttonDiscard.setEnabled(false);
         buttonNextTurn.setEnabled(false);
-        txtViewWinner.setText(Game.getWinner().getName() + " wins!");
+        txtViewWinner.setText(Game.getWinner().getName() + " wins with " + hand);
+
+        for(Player p: Game.getPlayers()) {
+            txtViewShowDown.append(p.getName() + ": " + p.getHand().toString() + "\n");
+        }
     }
 
     private void resetCheckBoxes() {

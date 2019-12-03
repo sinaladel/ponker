@@ -84,4 +84,7 @@ public class Game {
     }
 
 
+    public static ArrayList<Player> getPlayers() {
+        return players;
+    }
 }

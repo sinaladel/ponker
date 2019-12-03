@@ -41,7 +41,7 @@ public class Hand implements Comparable<Hand> {
 
         //compare the value of the hand, compare the high card if the hand value is equal
         if (hv.equals(o_hv)) {
-            return this.highCard.compareTo(o.highCard);
+            return this.highCard.compareTo(o.highCard) * -1;
         } else return hv.compareTo(o_hv) * -1; //compare in reverse order
     }
 
@@ -76,7 +76,7 @@ public class Hand implements Comparable<Hand> {
             } else if (!threeOfKindTier.equals(Tier.INVALID)) {
                 highCard = threeOfKindTier;
                 return HandValue.THREE_OF_A_KIND; //Already checked for full house - no higher hands are possible: return
-            } else if (!twoPairTiers.equals(Tier.INVALID)) {
+            } else if (!twoPairTiers.get(1).equals(Tier.INVALID)) {
                 highCard = twoPairTiers.get(0);
                 return HandValue.TWO_PAIR; //Already checked for higher value hands: return
             } else {
@@ -238,5 +238,16 @@ public class Hand implements Comparable<Hand> {
         }
         return array;
     }
+
+    public String toString() {
+        String s = "";
+        for (Card c:cards) {
+            if (c.toString().length() == 2)
+                s += " " + c.toString() + " "; else
+                    s += c.toString() + " ";
+        }
+        return s;
+    }
+
 
 }
